@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
 import org.apache.http.Header;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,7 +28,6 @@ public class CatchUpMain extends Activity implements CallbackListener{
         final Button butTest = (Button)findViewById(R.id.button1);
 
         final Button butTest2 = (Button)findViewById(R.id.button2);
-        final TextView tvInfo = (TextView)findViewById(R.id.textView1);
 
         butTest.setOnClickListener(new View.OnClickListener() {
 
@@ -68,7 +65,7 @@ public class CatchUpMain extends Activity implements CallbackListener{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivityForResult(new Intent(this,SettingsActivity.class),0);
+            startActivityForResult(new Intent(this, SettingsActivity.class), 0);
             return true;
         }
 
