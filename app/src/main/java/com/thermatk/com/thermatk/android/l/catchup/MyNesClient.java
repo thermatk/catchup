@@ -5,17 +5,15 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.loopj.android.http.*;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.PersistentCookieStore;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import java.nio.charset.Charset;
 
-/**
- * Created by thermatk on 10.10.14.
- */
 public class MyNesClient {
     private static final String BASE_URL = "https://my.nes.ru/";
     private PersistentCookieStore nesCookieStore;
