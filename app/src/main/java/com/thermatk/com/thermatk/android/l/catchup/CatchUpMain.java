@@ -76,7 +76,7 @@ public class CatchUpMain extends Activity implements CallbackListener{
     public void successCallback(int statusCode, Header[] headers, byte[] responseBody) {
 
         String resp = new String(responseBody, Charset.forName("CP1251"));
-        Log.i("CatchUp", "MYNES HTML FROM REQUEST" + resp);
+        //Log.i("CatchUp", "MYNES HTML FROM REQUEST" + resp);
         Document doc = Jsoup.parse(resp);
         final TextView tvInfo = (TextView)findViewById(R.id.textView1);
 

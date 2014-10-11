@@ -53,7 +53,7 @@ public class MyNesClient {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
                 String resp = new String(responseBody, Charset.forName("CP1251"));
-                Log.i("CatchUp", "MYNES HTML FROM REQUEST" + resp);
+                //Log.i("CatchUp", "MYNES HTML FROM REQUEST" + resp);
                 //cListener.successCallback(statusCode, headers, responseBody);
             }
 
