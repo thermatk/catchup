@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.thermatk.com.thermatk.android.l.catchup"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 20
         versionCode 1
         versionName "1.0"
