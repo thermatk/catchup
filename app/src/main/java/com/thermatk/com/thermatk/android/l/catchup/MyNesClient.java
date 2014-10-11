@@ -16,7 +16,6 @@ import java.nio.charset.Charset;
 
 public class MyNesClient {
     private static final String BASE_URL = "https://my.nes.ru/";
-    private PersistentCookieStore nesCookieStore;
     private CallbackListener cListener;
     private String username;
     private String password;
@@ -29,8 +28,7 @@ public class MyNesClient {
         username = sharedPrefs.getString("nesusername", "NULL");
         password = sharedPrefs.getString("nespassword", "NULL");
         cListener = listener;
-        nesCookieStore = new PersistentCookieStore(appContext);
-        client.setCookieStore(nesCookieStore);
+        client.setCookieStore(new PersistentCookieStore(appContext));
     }
 
     public void get(String url, RequestParams params) {
