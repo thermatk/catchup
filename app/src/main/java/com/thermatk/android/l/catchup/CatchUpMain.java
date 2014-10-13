@@ -18,31 +18,22 @@ import java.nio.charset.Charset;
 
 
 public class CatchUpMain extends Activity implements CallbackListener{
-    public static CallbackListener callbackActivity;
+    private CallbackListener callbackActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catch_up_main);
         callbackActivity = this;
-        final Button butTest = (Button)findViewById(R.id.button1);
 
         final Button butTest2 = (Button)findViewById(R.id.button2);
 
-        butTest.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                MyNesClient myNes = new MyNesClient(getApplicationContext(), callbackActivity);
-                myNes.login();
-            }
-        });
         butTest2.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 MyNesClient myNes = new MyNesClient(getApplicationContext(), callbackActivity);
-                myNes.get("", null);
+                myNes.getNearestEvents();
             }
         });
 
@@ -76,10 +67,10 @@ public class CatchUpMain extends Activity implements CallbackListener{
     public void successCallback(int statusCode, Header[] headers, byte[] responseBody) {
 
         String resp = new String(responseBody, Charset.forName("CP1251"));
-        //Log.i("CatchUp", "MYNES HTML FROM REQUEST" + resp);
+       // Log.i("CatchUp", "MYNES HTML FROM REQUEST" + resp);
         Document doc = Jsoup.parse(resp);
         final TextView tvInfo = (TextView)findViewById(R.id.textView1);
-
-        tvInfo.setText(doc.getElementById("mynesmenu").html());
+        String found = doc.select("td.right_col table.table7").get(1).html();
+        tvInfo.setText(found);
     }
 }
