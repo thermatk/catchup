@@ -1,4 +1,4 @@
-package com.thermatk.com.thermatk.android.l.catchup;
+package com.thermatk.android.l.catchup;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

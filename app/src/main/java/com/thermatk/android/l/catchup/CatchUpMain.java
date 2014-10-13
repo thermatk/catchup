@@ -1,4 +1,4 @@
-package com.thermatk.com.thermatk.android.l.catchup;
+package com.thermatk.android.l.catchup;
 
 import android.app.Activity;
 import android.content.Intent;
