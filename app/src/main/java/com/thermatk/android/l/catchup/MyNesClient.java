@@ -79,7 +79,8 @@ class MyNesClient {
                         }
                     });
                 }
-                cListener.successCallback(statusCode, headers, responseBody);
+
+                cListener.successCallback(new String(responseBody, Charset.forName("CP1251")));
             }
 
             @Override

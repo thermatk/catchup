@@ -64,13 +64,16 @@ public class CatchUpMain extends Activity implements CallbackListener{
     }
 
     @Override
-    public void successCallback(int statusCode, Header[] headers, byte[] responseBody) {
-
-        String resp = new String(responseBody, Charset.forName("CP1251"));
-       // Log.i("CatchUp", "MYNES HTML FROM REQUEST" + resp);
-        Document doc = Jsoup.parse(resp);
+    public void successCallback(String cbMessage) {
+       // Log.i("CatchUp", "MYNES HTML FROM REQUEST" + cbMessage);
+        Document doc = Jsoup.parse(cbMessage);
         final TextView tvInfo = (TextView)findViewById(R.id.textView1);
         String found = doc.select("td.right_col table.table7").get(1).html();
         tvInfo.setText(found);
+    }
+
+    @Override
+    public void failCallback(String cbMessage) {
+
     }
 }
