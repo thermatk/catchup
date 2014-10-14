@@ -46,14 +46,26 @@ class MyNesClient {
         client.post(getAbsoluteUrl(url), params, responseHandler);
     }
 
-    private void login(AsyncHttpResponseHandler responseHandler) {
+    private void login(final Runnable successRunnable) {
         RequestParams params = new RequestParams();
         params.put("login", username);
         params.put("password", password);
         params.put("persistent", "on");
         params.put("go", "guest/login");
         params.put("query", "");
-        this.post("adam.pl", params, responseHandler);
+        this.post("adam.pl", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                //add check login again and wrong credentials
+                successRunnable.run();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.i("CatchUp", "MYNES FAILED LOGIN REQUEST" + statusCode);
+                //Failed login
+            }
+        });
     }
 
     public void getNearestEvents() {
@@ -65,17 +77,9 @@ class MyNesClient {
                 Document doc = Jsoup.parse(resp);
                 if(needsLogin(doc) && !triedLogin) {
                     triedLogin = true;
-                    login(new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                            //add check login again and wrong credentials
+                    login(new Runnable() {
+                        public void run() {
                             getNearestEvents();
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                            Log.i("CatchUp", "MYNES FAILED LOGIN REQUEST" + statusCode);
-                            //Failed login
                         }
                     });
                 }
