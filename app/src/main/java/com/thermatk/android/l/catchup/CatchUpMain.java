@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 
 public class CatchUpMain extends Activity implements CallbackListener{
@@ -65,8 +66,13 @@ public class CatchUpMain extends Activity implements CallbackListener{
        // Log.i("CatchUp", "MYNES HTML FROM REQUEST" + cbMessage);
         Document doc = Jsoup.parse(cbMessage);
         final TextView tvInfo = (TextView)findViewById(R.id.textView1);
-        String found = doc.select("td.right_col table.table7").get(1).html();
-        tvInfo.setText(found);
+        Elements table7 = doc.select("td.right_col table.table7");
+        if(table7.size()>1) {
+            String found = table7.get(1).html();
+            tvInfo.setText(found);
+        } else {
+            Log.i("CatchUp", "MYNES scbk but failed");
+        }
     }
 
     @Override
