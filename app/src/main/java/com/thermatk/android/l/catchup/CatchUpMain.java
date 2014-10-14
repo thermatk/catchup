@@ -10,11 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.apache.http.Header;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
-import java.nio.charset.Charset;
 
 
 public class CatchUpMain extends Activity implements CallbackListener{
