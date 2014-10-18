@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -13,6 +14,7 @@ import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.nio.charset.Charset;
 
@@ -82,9 +84,16 @@ class MyNesClient {
                             getNearestEvents();
                         }
                     });
-                }
+                } else {
 
-                cListener.successCallback(new String(responseBody, Charset.forName("CP1251")));
+                    Elements table7 = doc.select("td.right_col table.table7");
+                    if (table7.size() > 1) {
+                        String found = table7.get(1).html();
+                        cListener.successCallback(found);
+                    } else {
+                        Log.i("CatchUp", "MYNES html courses failed");
+                    }
+                }
             }
 
             @Override
@@ -95,6 +104,42 @@ class MyNesClient {
         };
         get("adam.pl?student&lang=1", null, requestHandler);
     }
+
+    public void getCurrentCourseList() {
+        AsyncHttpResponseHandler requestHandler = new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                String resp = new String(responseBody, Charset.forName("CP1251"));
+                Document doc = Jsoup.parse(resp);
+                if(needsLogin(doc) && !triedLogin) {
+                    triedLogin = true;
+                    login(new Runnable() {
+                        public void run() {
+                            getCurrentCourseList();
+                        }
+                    });
+                } else {
+
+                    Elements table7 = doc.select("table#courses");
+                    if (true) {
+                        String found = table7.html();
+                        cListener.successCallback(found);
+                    } else {
+                        Log.i("CatchUp", "MYNES html courses failed");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.i("CatchUp", "MYNES FAILED NEAREST EVENTS REQUEST" + statusCode);
+                //Failed func
+            }
+        };
+        get("adam.pl?student&lang=1", null, requestHandler);
+    }
+
     private static String getAbsoluteUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;
     }

@@ -3,11 +3,14 @@ package com.thermatk.android.l.catchup;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -16,6 +19,11 @@ import org.jsoup.select.Elements;
 
 
 public class CatchUpMain extends Activity implements CallbackListener{
+
+    private String[] mPlanetTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+
     private CallbackListener callbackActivity;
 
     @Override
@@ -31,9 +39,20 @@ public class CatchUpMain extends Activity implements CallbackListener{
             @Override
             public void onClick(View v) {
                 MyNesClient myNes = new MyNesClient(getApplicationContext(), callbackActivity);
-                myNes.getNearestEvents();
+                myNes.getCurrentCourseList();
             }
         });
+
+        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, mPlanetTitles));
+        // Set the list's click listener
+        //mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
 
     }
 
@@ -64,15 +83,8 @@ public class CatchUpMain extends Activity implements CallbackListener{
     @Override
     public void successCallback(String cbMessage) {
        // Log.i("CatchUp", "MYNES HTML FROM REQUEST" + cbMessage);
-        Document doc = Jsoup.parse(cbMessage);
         final TextView tvInfo = (TextView)findViewById(R.id.textView1);
-        Elements table7 = doc.select("td.right_col table.table7");
-        if(table7.size()>1) {
-            String found = table7.get(1).html();
-            tvInfo.setText(found);
-        } else {
-            Log.i("CatchUp", "MYNES scbk but failed");
-        }
+        tvInfo.setText(cbMessage);
     }
 
     @Override

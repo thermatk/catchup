@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string-array name="planets_array"><item>Главная</item><item>Курсы</item><item>Учёба</item><item>Расписание</item></string-array>
     <string name="app_name">CatchUp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Настройки</string>
