@@ -1,6 +1,8 @@
 package com.thermatk.android.l.catchup;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,9 +10,11 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,16 +44,29 @@ public class CatchUpMain extends Activity implements CallbackListener{
         setContentView(R.layout.activity_catch_up_main);
         callbackActivity = this;
 
-        final Button butTest2 = (Button)findViewById(R.id.button2);
+        // Check that the activity is using the layout version with
+        // the fragment_container FrameLayout
+        if (findViewById(R.id.content_main_frame) != null) {
 
-        butTest2.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                MyNesClient myNes = new MyNesClient(getApplicationContext(), callbackActivity);
-                myNes.getCurrentCourseList();
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
             }
-        });
+
+            // Create a new Fragment to be placed in the activity layout
+            DefaultFragment firstFragment = new DefaultFragment();
+
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            firstFragment.setArguments(getIntent().getExtras());
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getFragmentManager().beginTransaction()
+                    .add(R.id.content_main_frame, firstFragment).commit();
+        }
+
 
         mPlanetTitles = getResources().getStringArray(R.array.planets_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -128,16 +145,16 @@ public class CatchUpMain extends Activity implements CallbackListener{
 
     private void selectItem(int position) {
         // update the main content by replacing fragments
-        /*Fragment fragment = new PlanetFragment();
+        Fragment fragment = new PlanetFragment();
         Bundle args = new Bundle();
         args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
         fragment.setArguments(args);
 
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_main_frame, fragment).commit();
 
         // update selected item and title, then close the drawer
-        */
+
         mDrawerList.setItemChecked(position, true);
         setTitle(mPlanetTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
@@ -181,12 +198,80 @@ public class CatchUpMain extends Activity implements CallbackListener{
     @Override
     public void successCallback(String cbMessage) {
        // Log.i("CatchUp", "MYNES HTML FROM REQUEST" + cbMessage);
-        final TextView tvInfo = (TextView)findViewById(R.id.textView1);
-        tvInfo.setText(cbMessage);
+       // final TextView tvInfo = (TextView)findViewById(R.id.textView1);
+       // tvInfo.setText(cbMessage);
+        Fragment f = getFragmentManager().findFragmentById(R.id.content_main_frame);
+        if (f instanceof DefaultFragment) {
+            ((DefaultFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
+        }
+
+        if (f instanceof PlanetFragment) {
+            ((PlanetFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
+        }
+        Log.i("CatchUp", cbMessage);
     }
 
     @Override
     public void failCallback(String cbMessage) {
 
+    }
+
+    public static class DefaultFragment extends Fragment {
+        public void updateFragment(){
+            final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
+            tvInfo.setText("UPDATED DEFAULT");
+
+        }
+
+        public DefaultFragment() {
+            // Empty constructor required for fragment subclasses
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_default, container, false);
+
+
+            final Button butTest2 = (Button)rootView.findViewById(R.id.button2);
+            butTest2.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    MyNesClient myNes = new MyNesClient(getActivity(), (CallbackListener)getActivity());
+                    myNes.getCurrentCourseList();
+                    //startActivityForResult(new Intent(v.getContext(), CourseSingle.class),0);
+
+                }
+            });
+            return rootView;
+        }
+    }
+    /**
+     * Fragment that appears in the "content_frame", shows a planet
+     */
+    public static class PlanetFragment extends Fragment {
+        public static final String ARG_PLANET_NUMBER = "planet_number";
+        public void updateFragment(){
+            final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
+            tvInfo.setText("UPDATED PLANET");
+
+        }
+
+        public PlanetFragment() {
+            // Empty constructor required for fragment subclasses
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.main_fragment, container, false);
+            int i = getArguments().getInt(ARG_PLANET_NUMBER);
+            String planet = getResources().getStringArray(R.array.planets_array)[i];
+            final TextView tvInfo = (TextView)rootView.findViewById(R.id.textView1);
+            tvInfo.setText(planet);
+            getActivity().setTitle(planet);
+            return rootView;
+        }
     }
 }
