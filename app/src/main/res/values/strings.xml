@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="planets_array"><item>Главная</item><item>Курсы</item><item>Учёба</item><item>Расписание</item></string-array>
+
+    <string-array name="planets_array">
+        <item>Главная</item>
+        <item>Курсы</item>
+        <item>Учёба</item>
+        <item>Расписание</item>
+    </string-array>
+
     <string name="app_name">CatchUp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Настройки</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="title_activity_course_single">Некий курс</string>
+    <string name="title_section1">Общее</string>
+    <string name="title_section2">Студенты</string>
+    <string name="title_section3">Оценки</string>
+    <string name="title_section4">Дедлайны</string>
+    <string name="title_section5">Материалы</string>
 
 </resources>
