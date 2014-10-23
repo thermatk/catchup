@@ -10,13 +10,17 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
+import com.orm.query.Condition;
+import com.orm.query.Select;
 
 import org.apache.http.Header;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.nio.charset.Charset;
+import java.util.List;
 
 class MyNesClient {
     private static final String BASE_URL = "https://my.nes.ru/";
@@ -121,10 +125,19 @@ class MyNesClient {
                     });
                 } else {
 
-                    Elements table7 = doc.select("table#courses");
-                    if (true) {
-                        String found = table7.html();
-                        cListener.successCallback(found);
+                    Element tablecourses = doc.getElementById("courses");
+                    if (tablecourses != null) {
+                        Elements courses = tablecourses.getElementsByTag("a");
+                        for (Element course : courses) {
+                            int mn_id = Integer.parseInt(course.parent().parent().getElementsByClass("dimmed").get(0).text());
+                            String name = course.text();
+                            if(Select.from(NesCourse.class).where(Condition.prop("myNesId").eq(mn_id)).count()==0) {
+                                Log.i("CatchUp", "MYNES " + mn_id + " " + name);
+                                NesCourse newcourse = new NesCourse(name, mn_id);
+                                newcourse.save();
+                            }
+                        }
+                        cListener.successCallback("oooh yeah");
                     } else {
                         Log.i("CatchUp", "MYNES html courses failed");
                     }
