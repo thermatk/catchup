@@ -131,7 +131,7 @@ class MyNesClient {
                         for (Element course : courses) {
                             int mn_id = Integer.parseInt(course.parent().parent().getElementsByClass("dimmed").get(0).text());
                             String name = course.text();
-                            if(Select.from(NesCourse.class).where(Condition.prop("myNesId").eq(mn_id)).count()==0) {
+                            if(Select.from(NesCourse.class).where(Condition.prop("my_nes_id").eq(mn_id)).count()==0) {
                                 Log.i("CatchUp", "MYNES " + mn_id + " " + name);
                                 NesCourse newcourse = new NesCourse(name, mn_id);
                                 newcourse.save();
