@@ -37,12 +37,14 @@ public class CoursesRecycleAdapter extends RecyclerView.Adapter<CoursesRecycleAd
 
     @Override
     public void onBindViewHolder(final CoursesViewHolder viewHolder, int position) {
-        NesCourse item = items.get(position);
+        final NesCourse item = items.get(position);
         viewHolder.courseName.setText(item.name);
         viewHolder.courseName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, CourseSingle.class));
+                Intent courseIntent = new Intent(mContext, CourseSingle.class);
+                courseIntent.putExtra("myNesId", item.myNesId);
+                mContext.startActivity(courseIntent);
             }
         });
     }
