@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,8 @@ public class CoursesRecycleAdapter extends RecyclerView.Adapter<CoursesRecycleAd
             @Override
             public void onClick(View v) {
                 Intent courseIntent = new Intent(mContext, CourseSingle.class);
-                courseIntent.putExtra("myNesId", item.myNesId);
+                courseIntent.putExtra("courseId", item.getId());
+                Log.i("CatchUp", item.getId().toString());
                 mContext.startActivity(courseIntent);
             }
         });

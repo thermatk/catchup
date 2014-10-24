@@ -18,6 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.orm.query.Condition;
+import com.orm.query.Select;
+
 
 public class CourseSingle extends Activity implements ActionBar.TabListener {
 
@@ -47,7 +50,12 @@ public class CourseSingle extends Activity implements ActionBar.TabListener {
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
+        NesCourse loadedCourse = NesCourse.findById(NesCourse.class, getIntent().getLongExtra("courseId",0L));
+        if(loadedCourse != null) {
+            setTitle(loadedCourse.name);
+        } else {
+            finish();
+        }
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());

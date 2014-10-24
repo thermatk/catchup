@@ -246,7 +246,6 @@ public class CatchUpMain extends Activity implements CallbackListener{
                 public void onClick(View v) {
                     MyNesClient myNes = new MyNesClient(getActivity(), (CallbackListener)getActivity());
                     myNes.getCurrentCourseList();
-                    startActivity(new Intent(v.getContext(), CourseSingle.class));
 
                 }
             });
