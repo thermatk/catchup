@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,7 +37,7 @@ public class CatchUpMain extends Activity implements CallbackListener{
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private String[] mPlanetTitles;
+    private String[] mNavMenuTitles;
 
     private CallbackListener callbackActivity;
 
@@ -68,7 +71,7 @@ public class CatchUpMain extends Activity implements CallbackListener{
         }
 
 
-        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+        mNavMenuTitles = getResources().getStringArray(R.array.nav_menu_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -78,7 +81,7 @@ public class CatchUpMain extends Activity implements CallbackListener{
 
         // Set the adapter for the list view
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mPlanetTitles));
+                R.layout.drawer_list_item, mNavMenuTitles));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -144,11 +147,14 @@ public class CatchUpMain extends Activity implements CallbackListener{
     }
 
     private void selectItem(int position) {
-        // update the main content by replacing fragments
-        Fragment fragment = new PlanetFragment();
-        Bundle args = new Bundle();
-        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-        fragment.setArguments(args);
+        Fragment fragment;
+        switch (position) {
+            case 0: fragment = new DefaultFragment();break;
+            case 1: fragment = new CourseFragment();break;
+            case 2: fragment = new DefaultFragment();break;
+            case 3: fragment = new DefaultFragment();break;
+            default: fragment = new DefaultFragment();
+        }
 
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_main_frame, fragment).commit();
@@ -156,7 +162,7 @@ public class CatchUpMain extends Activity implements CallbackListener{
         // update selected item and title, then close the drawer
 
         mDrawerList.setItemChecked(position, true);
-        setTitle(mPlanetTitles[position]);
+        setTitle(mNavMenuTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
@@ -205,8 +211,8 @@ public class CatchUpMain extends Activity implements CallbackListener{
             ((DefaultFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
         }
 
-        if (f instanceof PlanetFragment) {
-            ((PlanetFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
+        if (f instanceof MenuFragment) {
+            ((MenuFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
         }
         Log.i("CatchUp", cbMessage);
     }
@@ -240,25 +246,63 @@ public class CatchUpMain extends Activity implements CallbackListener{
                 public void onClick(View v) {
                     MyNesClient myNes = new MyNesClient(getActivity(), (CallbackListener)getActivity());
                     myNes.getCurrentCourseList();
-                    //startActivityForResult(new Intent(v.getContext(), CourseSingle.class),0);
+                    startActivity(new Intent(v.getContext(), CourseSingle.class));
 
                 }
             });
             return rootView;
         }
     }
+    public static class CourseFragment extends Fragment {
+        public void updateFragment(){
+            final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
+            tvInfo.setText("UPDATED COURSE");
+
+        }
+
+        public CourseFragment() {
+            // Empty constructor required for fragment subclasses
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_courses, container, false);
+
+            RecyclerView mRecyclerView = (RecyclerView)rootView.findViewById(R.id.list);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+            CoursesRecycleAdapter mAdapter = new CoursesRecycleAdapter(NesCourse.listAll(NesCourse.class), getActivity());
+            mRecyclerView.setAdapter(mAdapter);
+
+            /*final Button butTest2 = (Button)rootView.findViewById(R.id.button2);
+            butTest2.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    MyNesClient myNes = new MyNesClient(getActivity(), (CallbackListener)getActivity());
+                    myNes.getCurrentCourseList();
+                    //startActivityForResult(new Intent(v.getContext(), CourseSingle.class),0);
+
+                }
+            });
+            */
+            return rootView;
+        }
+    }
     /**
      * Fragment that appears in the "content_frame", shows a planet
      */
-    public static class PlanetFragment extends Fragment {
-        public static final String ARG_PLANET_NUMBER = "planet_number";
+    public static class MenuFragment extends Fragment {
+        public static final String ARG_MENU_NAME= "menu_name";
         public void updateFragment(){
             final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
             tvInfo.setText("UPDATED PLANET");
 
         }
 
-        public PlanetFragment() {
+        public MenuFragment() {
             // Empty constructor required for fragment subclasses
         }
 
@@ -266,8 +310,8 @@ public class CatchUpMain extends Activity implements CallbackListener{
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-            int i = getArguments().getInt(ARG_PLANET_NUMBER);
-            String planet = getResources().getStringArray(R.array.planets_array)[i];
+            int i = getArguments().getInt(ARG_MENU_NAME);
+            String planet = getResources().getStringArray(R.array.nav_menu_array)[i];
             final TextView tvInfo = (TextView)rootView.findViewById(R.id.textView1);
             tvInfo.setText(planet);
             getActivity().setTitle(planet);
