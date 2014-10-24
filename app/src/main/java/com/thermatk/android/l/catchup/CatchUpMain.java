@@ -194,7 +194,7 @@ public class CatchUpMain extends Activity implements CallbackListener{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivityForResult(new Intent(this, SettingsActivity.class), 0);
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
 
