@@ -168,9 +168,13 @@ class MyNesClient {
                         }
                     });
                 } else {
-
                     Elements harows = doc.getElementById("has_table").getElementsByTag("tbody").first().getElementsByTag("tr");
                     if (harows.size() > 1) {
+                        for (int i=1;i<harows.size();i++) {
+                            Element harow= harows.get(i);
+                            Log.i("CatchUp", harow.html());
+
+                        }
 
                         //Elements homeassignments = hatable.get(1).getElementsByClass("dimmed");
                         /*Elements courses = tablecourses.getElementsByTag("a");
@@ -184,9 +188,6 @@ class MyNesClient {
                             }
                             }
                             */
-
-
-                        Log.i("CatchUp", harows.get(0).html());
                         cListener.successCallback("oooh yeah");
                     } else {
                         Log.i("CatchUp", "MYNES Course General failed");
