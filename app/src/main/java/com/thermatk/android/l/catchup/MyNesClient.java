@@ -153,6 +153,56 @@ class MyNesClient {
         get("adam.pl?student&lang=1", null, requestHandler);
     }
 
+    public void getCourseDeadlines(final int myNesId) {
+        AsyncHttpResponseHandler requestHandler = new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                String resp = new String(responseBody, Charset.forName("CP1251"));
+                Document doc = Jsoup.parse(resp);
+                if(needsLogin(doc) && !triedLogin) {
+                    triedLogin = true;
+                    login(new Runnable() {
+                        public void run() {
+                            getCourseDeadlines(myNesId);
+                        }
+                    });
+                } else {
+
+                    Elements harows = doc.getElementById("has_table").getElementsByTag("tbody").first().getElementsByTag("tr");
+                    if (harows.size() > 1) {
+
+                        //Elements homeassignments = hatable.get(1).getElementsByClass("dimmed");
+                        /*Elements courses = tablecourses.getElementsByTag("a");
+                        for (Element course : courses) {
+                            int mn_id = Integer.parseInt(course.parent().parent().getElementsByClass("dimmed").get(0).text());
+                            String name = course.text();
+                            if(Select.from(NesCourse.class).where(Condition.prop("my_nes_id").eq(mn_id)).count()==0) {
+                                Log.i("CatchUp", "MYNES " + mn_id + " " + name);
+                                NesCourse newcourse = new NesCourse(name, mn_id);
+                                newcourse.save();
+                            }
+                            }
+                            */
+
+
+                        Log.i("CatchUp", harows.get(0).html());
+                        cListener.successCallback("oooh yeah");
+                    } else {
+                        Log.i("CatchUp", "MYNES Course General failed");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.i("CatchUp", "MYNES FAILED Course General REQUEST" + statusCode);
+                //Failed func
+            }
+        };
+        get("adam.pl?student/courses/crs&cid="+Integer.toString(myNesId)+"&pane=homeworks&lang=1", null, requestHandler);
+    }
+
     private static String getAbsoluteUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;
     }
