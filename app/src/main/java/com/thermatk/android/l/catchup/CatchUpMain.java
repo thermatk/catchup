@@ -1,6 +1,5 @@
 package com.thermatk.android.l.catchup;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
