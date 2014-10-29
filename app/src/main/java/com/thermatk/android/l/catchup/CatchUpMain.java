@@ -55,6 +55,9 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
             setSupportActionBar(toolbar);
         }
 
+        loadingBar = (ProgressBar) findViewById(R.id.progressBar);
+        loadingBar.setVisibility(View.INVISIBLE);
+
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
         if (findViewById(R.id.content_main_frame) != null) {
@@ -118,8 +121,6 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        loadingBar = (ProgressBar) findViewById(R.id.progressBar);
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
@@ -240,7 +241,6 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
         public void updateFragment(){
             final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
             tvInfo.setText("UPDATED DEFAULT");
-
         }
 
         @Override
@@ -270,10 +270,11 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
         }
     }
     public static class CourseFragment extends Fragment implements UpdatableFragment  {
+        RecyclerView mRecyclerView;
         public void updateFragment(){
-            final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
+            CoursesRecycleAdapter mAdapter = new CoursesRecycleAdapter(NesCourse.listAll(NesCourse.class), getActivity());
+            mRecyclerView.setAdapter(mAdapter);
             Log.i("CatchUp", "UPDATED COURSE");
-
         }
 
         @Override
@@ -291,7 +292,7 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_courses, container, false);
 
-            RecyclerView mRecyclerView = (RecyclerView)rootView.findViewById(R.id.list);
+            mRecyclerView = (RecyclerView)rootView.findViewById(R.id.list);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
