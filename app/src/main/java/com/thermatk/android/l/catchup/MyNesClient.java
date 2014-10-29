@@ -145,7 +145,7 @@ class MyNesClient {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.i("CatchUp", "MYNES FAILED NEAREST EVENTS REQUEST" + statusCode);
+                Log.i("CatchUp", "MYNES FAILED COURSES CURRENT REQUEST" + statusCode);
                 //Failed func
             }
         };
