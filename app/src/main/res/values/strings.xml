@@ -8,11 +8,11 @@
         <item>Расписание</item>
     </string-array>
     <string-array name="single_tabs_array">
+        <item>Дедлайны</item>
+        <item>Оценки</item>
+        <item>Материалы</item>
         <item>Общее</item>
         <item>Студенты</item>
-        <item>Оценки</item>
-        <item>Дедлайны</item>
-        <item>Материалы</item>
     </string-array>
 
     <string name="app_name">CatchUp</string>
