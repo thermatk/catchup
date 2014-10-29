@@ -1,4 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<!-- The toolbar -->
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:minHeight="?attr/actionBarSize"
+    android:background="?attr/colorPrimary" />
 <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/pager"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context="com.thermatk.android.l.catchup.CourseSingle" />
+    tools:context="com.thermatk.android.l.catchup.CourseSingle">
+
+    <android.support.v4.view.PagerTabStrip
+
+        android:id="@+id/pagerTabStrip"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="top"
+
+        android:background="#499CF3" />
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

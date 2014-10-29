@@ -2,14 +2,16 @@ package com.thermatk.android.l.catchup;
 
 import java.util.Locale;
 
-import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.app.FragmentManager;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,7 +24,7 @@ import com.orm.query.Condition;
 import com.orm.query.Select;
 
 
-public class CourseSingle extends Activity implements ActionBar.TabListener {
+public class CourseSingle extends ActionBarActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -45,8 +47,11 @@ public class CourseSingle extends Activity implements ActionBar.TabListener {
         setContentView(R.layout.activity_course_single);
 
         // Set up the action bar.
-        final ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+        final ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -60,31 +65,11 @@ public class CourseSingle extends Activity implements ActionBar.TabListener {
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
+        PagerTabStrip pagerTabStrip = (PagerTabStrip) findViewById(R.id.pagerTabStrip);
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        // When swiping between different sections, select the corresponding
-        // tab. We can also use ActionBar.Tab#select() to do this if we have
-        // a reference to the Tab.
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
-            }
-        });
-
-        // For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
-        }
+        mViewPager.setCurrentItem(0);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -98,60 +83,39 @@ public class CourseSingle extends Activity implements ActionBar.TabListener {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // When the given tab is selected, switch to the corresponding page in
-        // the ViewPager.
-        mViewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+        private final String titles[] = getResources().getStringArray(R.array.single_tabs_array);
+        private final Fragment frags[] = new Fragment[titles.length];
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 5;
+            frags[0] = new PlaceholderFragment();
+            frags[1] = new PlaceholderFragment();
+            frags[2] = new PlaceholderFragment();
+            frags[3] = new PlaceholderFragment();
+            frags[4] = new PlaceholderFragment();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
-            switch (position) {
-                case 0:
-                    return getString(R.string.title_section1).toUpperCase(l);
-                case 1:
-                    return getString(R.string.title_section2).toUpperCase(l);
-                case 2:
-                    return getString(R.string.title_section3).toUpperCase(l);
-                case 3:
-                    return getString(R.string.title_section4).toUpperCase(l);
-                case 4:
-                    return getString(R.string.title_section5).toUpperCase(l);
-            }
-            return null;
+            Log.v("TitleAdapter - getPageTitle=", titles[position]);
+            return titles[position];
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Log.v("TitleAdapter - getItem=", String.valueOf(position));
+            return frags[position];
+        }
+
+        @Override
+        public int getCount() {
+            return frags.length;
         }
     }
 
@@ -159,26 +123,6 @@ public class CourseSingle extends Activity implements ActionBar.TabListener {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,

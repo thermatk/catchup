@@ -6,12 +6,14 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,12 +26,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
-
-public class CatchUpMain extends Activity implements CallbackListener{
+public class CatchUpMain extends ActionBarActivity implements CallbackListener{
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -46,6 +44,10 @@ public class CatchUpMain extends Activity implements CallbackListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catch_up_main);
         callbackActivity = this;
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -88,19 +90,19 @@ public class CatchUpMain extends Activity implements CallbackListener{
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+                toolbar, R.string.drawer_open, R.string.drawer_close) {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getActionBar().setTitle(mTitle);
+                getSupportActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getActionBar().setTitle(mDrawerTitle);
+                getSupportActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
@@ -108,8 +110,8 @@ public class CatchUpMain extends Activity implements CallbackListener{
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 
@@ -117,7 +119,7 @@ public class CatchUpMain extends Activity implements CallbackListener{
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
         //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
@@ -169,7 +171,7 @@ public class CatchUpMain extends Activity implements CallbackListener{
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        getSupportActionBar().setTitle(mTitle);
     }
 
 
@@ -245,7 +247,7 @@ public class CatchUpMain extends Activity implements CallbackListener{
                 @Override
                 public void onClick(View v) {
                     MyNesClient myNes = new MyNesClient(getActivity(), (CallbackListener)getActivity());
-                    myNes.getCourseDeadlines(1699);
+                    myNes.getCurrentCourseList();
 
                 }
             });
