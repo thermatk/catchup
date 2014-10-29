@@ -1,5 +1,6 @@
 package com.thermatk.android.l.catchup;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ClipData;
@@ -41,6 +42,7 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
     private CallbackListener callbackActivity;
 
     private ProgressBar loadingBar;
+    private Menu menu;
 
 
     @Override
@@ -163,8 +165,7 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
             default: fragment = new DefaultFragment();
         }
 
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_main_frame, fragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.content_main_frame, fragment).commit();
 
         // update selected item and title, then close the drawer
 
@@ -184,6 +185,7 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.catch_up_main, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -206,6 +208,7 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
         } else if (id == R.id.menu_refresh) {
             loadingBar.setVisibility(View.VISIBLE);
             item.setVisible(false);
+            ((UpdatableFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateContent();
         }
 
         return super.onOptionsItemSelected(item);
@@ -216,14 +219,11 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
        // Log.i("CatchUp", "MYNES HTML FROM REQUEST" + cbMessage);
        // final TextView tvInfo = (TextView)findViewById(R.id.textView1);
        // tvInfo.setText(cbMessage);
-        Fragment f = getFragmentManager().findFragmentById(R.id.content_main_frame);
-        if (f instanceof DefaultFragment) {
-            ((DefaultFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
-        }
 
-        if (f instanceof CourseFragment) {
-            ((CourseFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
-        }
+        menu.findItem(R.id.menu_refresh).setVisible(true);
+        loadingBar.setVisibility(View.INVISIBLE);
+
+        ((UpdatableFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
         Log.i("CatchUp", cbMessage);
     }
 
@@ -231,11 +231,20 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
     public void failCallback(String cbMessage) {
 
     }
+    public interface UpdatableFragment {
 
-    public static class DefaultFragment extends Fragment {
+        public void updateFragment();
+        public void updateContent();
+    }
+    public static class DefaultFragment extends Fragment implements UpdatableFragment {
         public void updateFragment(){
             final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
             tvInfo.setText("UPDATED DEFAULT");
+
+        }
+
+        @Override
+        public void updateContent() {
 
         }
 
@@ -254,19 +263,23 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
 
                 @Override
                 public void onClick(View v) {
-                    MyNesClient myNes = new MyNesClient(getActivity(), (CallbackListener)getActivity());
-                    myNes.getCurrentCourseList();
 
                 }
             });
             return rootView;
         }
     }
-    public static class CourseFragment extends Fragment {
+    public static class CourseFragment extends Fragment implements UpdatableFragment  {
         public void updateFragment(){
             final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
-            tvInfo.setText("UPDATED COURSE");
+            Log.i("CatchUp", "UPDATED COURSE");
 
+        }
+
+        @Override
+        public void updateContent() {
+            MyNesClient myNes = new MyNesClient(getActivity());
+            myNes.getCurrentCourseList();
         }
 
         public CourseFragment() {
@@ -284,19 +297,6 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
 
             CoursesRecycleAdapter mAdapter = new CoursesRecycleAdapter(NesCourse.listAll(NesCourse.class), getActivity());
             mRecyclerView.setAdapter(mAdapter);
-
-            /*final Button butTest2 = (Button)rootView.findViewById(R.id.button2);
-            butTest2.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    MyNesClient myNes = new MyNesClient(getActivity(), (CallbackListener)getActivity());
-                    myNes.getCurrentCourseList();
-                    //startActivityForResult(new Intent(v.getContext(), CourseSingle.class),0);
-
-                }
-            });
-            */
             return rootView;
         }
     }
