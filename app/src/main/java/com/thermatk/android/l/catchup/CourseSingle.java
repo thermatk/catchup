@@ -87,11 +87,11 @@ public class CourseSingle extends ActionBarActivity {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-            frags[0] = new PlaceholderFragment();
-            frags[1] = new PlaceholderFragment();
-            frags[2] = new PlaceholderFragment();
-            frags[3] = new PlaceholderFragment();
-            frags[4] = new PlaceholderFragment();
+            frags[0] = new DeadlinesFragment();
+            frags[1] = new GradesFragment();
+            frags[2] = new FilesFragment();
+            frags[3] = new InfoFragment();
+            frags[4] = new StudentsFragment();
         }
 
         @Override
@@ -112,10 +112,8 @@ public class CourseSingle extends ActionBarActivity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
+
+    public static class DeadlinesFragment extends Fragment implements UpdatableFragment {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,6 +121,97 @@ public class CourseSingle extends ActionBarActivity {
 
             View rootView = inflater.inflate(R.layout.fragment_course_single, container, false);
             return rootView;
+        }
+
+        @Override
+        public void updateFragment() {
+
+        }
+
+        @Override
+        public void updateContent() {
+
+        }
+    }
+    public static class GradesFragment extends Fragment implements UpdatableFragment  {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            View rootView = inflater.inflate(R.layout.fragment_course_single, container, false);
+            return rootView;
+        }
+
+        @Override
+        public void updateFragment() {
+
+        }
+
+        @Override
+        public void updateContent() {
+
+        }
+    }
+    public static class FilesFragment extends Fragment implements UpdatableFragment  {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            View rootView = inflater.inflate(R.layout.fragment_course_single, container, false);
+            return rootView;
+        }
+
+        @Override
+        public void updateFragment() {
+
+        }
+
+        @Override
+        public void updateContent() {
+
+        }
+    }
+
+    public static class InfoFragment extends Fragment implements UpdatableFragment  {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            View rootView = inflater.inflate(R.layout.fragment_course_single, container, false);
+            return rootView;
+        }
+
+        @Override
+        public void updateFragment() {
+
+        }
+
+        @Override
+        public void updateContent() {
+
+        }
+    }
+    public static class StudentsFragment extends Fragment implements UpdatableFragment  {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            View rootView = inflater.inflate(R.layout.fragment_course_single, container, false);
+            return rootView;
+        }
+
+        @Override
+        public void updateFragment() {
+
+        }
+
+        @Override
+        public void updateContent() {
+
         }
     }
 

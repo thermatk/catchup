@@ -161,8 +161,8 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
         switch (position) {
             case 0: fragment = new DefaultFragment();break;
             case 1: fragment = new CourseFragment();break;
-            case 2: fragment = new DefaultFragment();break;
-            case 3: fragment = new DefaultFragment();break;
+            case 2: fragment = new LearnFragment();break;
+            case 3: fragment = new ScheduleFragment();break;
             default: fragment = new DefaultFragment();
         }
 
@@ -293,6 +293,70 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
 
             CoursesRecycleAdapter mAdapter = new CoursesRecycleAdapter(NesCourse.listAll(NesCourse.class), getActivity());
             mRecyclerView.setAdapter(mAdapter);
+            return rootView;
+        }
+    }
+    public static class LearnFragment extends Fragment implements UpdatableFragment {
+        public void updateFragment(){
+            final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
+            tvInfo.setText("UPDATED Learn");
+        }
+
+        @Override
+        public void updateContent() {
+
+        }
+
+        public LearnFragment() {
+            // Empty constructor required for fragment subclasses
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_default, container, false);
+
+
+            final Button butTest2 = (Button)rootView.findViewById(R.id.button2);
+            butTest2.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            return rootView;
+        }
+    }
+    public static class ScheduleFragment extends Fragment implements UpdatableFragment {
+        public void updateFragment(){
+            final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
+            tvInfo.setText("UPDATED Schedule");
+        }
+
+        @Override
+        public void updateContent() {
+
+        }
+
+        public ScheduleFragment() {
+            // Empty constructor required for fragment subclasses
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_default, container, false);
+
+
+            final Button butTest2 = (Button)rootView.findViewById(R.id.button2);
+            butTest2.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
             return rootView;
         }
     }
