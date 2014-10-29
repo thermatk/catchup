@@ -232,11 +232,6 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
     public void failCallback(String cbMessage) {
 
     }
-    public interface UpdatableFragment {
-
-        public void updateFragment();
-        public void updateContent();
-    }
     public static class DefaultFragment extends Fragment implements UpdatableFragment {
         public void updateFragment(){
             final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
