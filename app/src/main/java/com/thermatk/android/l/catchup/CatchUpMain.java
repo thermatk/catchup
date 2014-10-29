@@ -2,6 +2,7 @@ package com.thermatk.android.l.catchup;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -37,6 +39,9 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
     private String[] mNavMenuTitles;
 
     private CallbackListener callbackActivity;
+
+    private ProgressBar loadingBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,14 +117,15 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        loadingBar = (ProgressBar) findViewById(R.id.progressBar);
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
-         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        menu.findItem(R.id.menu_refresh).setVisible((!drawerOpen && loadingBar.getVisibility() != View.VISIBLE));
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -197,6 +203,9 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
+        } else if (id == R.id.menu_refresh) {
+            loadingBar.setVisibility(View.VISIBLE);
+            item.setVisible(false);
         }
 
         return super.onOptionsItemSelected(item);
@@ -212,8 +221,8 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
             ((DefaultFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
         }
 
-        if (f instanceof MenuFragment) {
-            ((MenuFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
+        if (f instanceof CourseFragment) {
+            ((CourseFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
         }
         Log.i("CatchUp", cbMessage);
     }
@@ -291,31 +300,5 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
             return rootView;
         }
     }
-    /**
-     * Fragment that appears in the "content_frame", shows a planet
-     */
-    public static class MenuFragment extends Fragment {
-        public static final String ARG_MENU_NAME= "menu_name";
-        public void updateFragment(){
-            final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
-            tvInfo.setText("UPDATED PLANET");
 
-        }
-
-        public MenuFragment() {
-            // Empty constructor required for fragment subclasses
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-            int i = getArguments().getInt(ARG_MENU_NAME);
-            String planet = getResources().getStringArray(R.array.nav_menu_array)[i];
-            final TextView tvInfo = (TextView)rootView.findViewById(R.id.textView1);
-            tvInfo.setText(planet);
-            getActivity().setTitle(planet);
-            return rootView;
-        }
-    }
 }
