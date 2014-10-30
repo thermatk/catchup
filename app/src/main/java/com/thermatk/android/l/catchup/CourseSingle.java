@@ -29,10 +29,9 @@ public class CourseSingle extends ActionBarActivity {
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     ViewPager mViewPager;
+
+    NesCourse loadedCourse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,7 @@ public class CourseSingle extends ActionBarActivity {
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        NesCourse loadedCourse = NesCourse.findById(NesCourse.class, getIntent().getLongExtra("courseId",0L));
+        loadedCourse = NesCourse.findById(NesCourse.class, getIntent().getLongExtra("courseId",0L));
         if(loadedCourse != null) {
             setTitle(loadedCourse.name);
         } else {
