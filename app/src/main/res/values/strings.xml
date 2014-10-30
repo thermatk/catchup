@@ -17,6 +17,7 @@
 
     <string name="app_name">CatchUp</string>
     <string name="hello_world">Hello world!</string>
+    <string name="button_text">Получить</string>
     <string name="action_settings">Настройки</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

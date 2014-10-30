@@ -1,9 +1,6 @@
 package com.thermatk.android.l.catchup;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -42,8 +39,6 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
     private CharSequence mTitle;
     private String[] mNavMenuTitles;
 
-    private CallbackListener callbackActivity;
-
     private ProgressBar loadingBar;
     private Menu menu;
 
@@ -52,7 +47,6 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catch_up_main);
-        callbackActivity = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
