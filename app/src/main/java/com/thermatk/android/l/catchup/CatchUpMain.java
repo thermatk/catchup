@@ -206,6 +206,7 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
         } else if (id == R.id.menu_refresh) {
             viewStartLoading();
             ((UpdatableFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateContent();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
