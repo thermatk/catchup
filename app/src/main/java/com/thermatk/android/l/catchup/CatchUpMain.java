@@ -7,6 +7,7 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -267,6 +268,9 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
 
                 }
             });
+            if(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("nesusername", null) == null || PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("nespassword", null) == null) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+            }
             return rootView;
         }
     }
@@ -312,6 +316,8 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
                 }
             } else {
                 Log.i("CatchUp", "NOT UPDATED IN THE PAST");
+                ((CatchUpMain)getActivity()).viewStartLoading();
+                updateContent();
             }
             return rootView;
         }
