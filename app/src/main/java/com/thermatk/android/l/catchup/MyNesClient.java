@@ -19,6 +19,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.nio.charset.Charset;
+import java.util.List;
 
 class MyNesClient {
     private static final String BASE_URL = "https://my.nes.ru/";
@@ -136,9 +137,18 @@ class MyNesClient {
                                 newcourse.save();
                             }
                         }
+                        List<NesUpdateTimes> courseUpdatedL = NesUpdateTimes.find(NesUpdateTimes.class, "type = ?", "COURSELIST");
+                        if(!courseUpdatedL.isEmpty()) {
+                            courseUpdatedL.get(0).setUpdated();
+                            courseUpdatedL.get(0).save();
+                        } else {
+                            NesUpdateTimes courseUpdated = new NesUpdateTimes("COURSELIST", 0);
+                            courseUpdated.setUpdated();
+                            courseUpdated.save();
+                        }
                         cListener.successCallback("oooh yeah");
                     } else {
-                        Log.i("CatchUp", "MYNES html courses failed");
+                        cListener.failCallback("MYNES html courses failed");
                     }
                 }
             }
@@ -147,6 +157,7 @@ class MyNesClient {
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.i("CatchUp", "MYNES FAILED COURSES CURRENT REQUEST" + statusCode);
                 //Failed func
+                cListener.failCallback("MYNES html courses failed r");
             }
         };
         get("adam.pl?student&lang=1", null, requestHandler);

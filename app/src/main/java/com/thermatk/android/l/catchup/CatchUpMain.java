@@ -28,6 +28,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.List;
+
 
 public class CatchUpMain extends ActionBarActivity implements CallbackListener{
     private DrawerLayout mDrawerLayout;
@@ -207,29 +209,33 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         } else if (id == R.id.menu_refresh) {
-            loadingBar.setVisibility(View.VISIBLE);
-            item.setVisible(false);
+            viewStartLoading();
             ((UpdatableFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateContent();
         }
 
         return super.onOptionsItemSelected(item);
     }
+    public void viewStartLoading () {
+        loadingBar.setVisibility(View.VISIBLE);
+        menu.findItem(R.id.menu_refresh).setVisible(false);
+    }
+    public void viewStopLoading() {
+        menu.findItem(R.id.menu_refresh).setVisible(true);
+        loadingBar.setVisibility(View.INVISIBLE);
+    }
 
     @Override
     public void successCallback(String cbMessage) {
-       // Log.i("CatchUp", "MYNES HTML FROM REQUEST" + cbMessage);
-       // final TextView tvInfo = (TextView)findViewById(R.id.textView1);
-       // tvInfo.setText(cbMessage);
-
-        menu.findItem(R.id.menu_refresh).setVisible(true);
-        loadingBar.setVisibility(View.INVISIBLE);
-
+        viewStopLoading();
         ((UpdatableFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
         Log.i("CatchUp", cbMessage);
     }
 
     @Override
     public void failCallback(String cbMessage) {
+        viewStopLoading();
+
+        Log.i("CatchUp", cbMessage);
 
     }
     public static class DefaultFragment extends Fragment implements UpdatableFragment {
@@ -274,6 +280,7 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
 
         @Override
         public void updateContent() {
+
             MyNesClient myNes = new MyNesClient(getActivity());
             myNes.getCurrentCourseList();
         }
@@ -293,6 +300,19 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
 
             CoursesRecycleAdapter mAdapter = new CoursesRecycleAdapter(NesCourse.listAll(NesCourse.class), getActivity());
             mRecyclerView.setAdapter(mAdapter);
+
+
+            List<NesUpdateTimes> courseUpdatedL = NesUpdateTimes.find(NesUpdateTimes.class, "type = ?", "COURSELIST");
+            if(!courseUpdatedL.isEmpty()) {
+                if(courseUpdatedL.get(0).needsUpdate()) {
+                    ((CatchUpMain)getActivity()).viewStartLoading();
+                    updateContent();
+                } else {
+                    Log.i("CatchUp", Boolean.toString(courseUpdatedL.get(0).needsUpdate()));
+                }
+            } else {
+                Log.i("CatchUp", "NOT UPDATED IN THE PAST");
+            }
             return rootView;
         }
     }
