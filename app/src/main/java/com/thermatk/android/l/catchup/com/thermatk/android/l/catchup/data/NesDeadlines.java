@@ -1,13 +1,13 @@
-package com.thermatk.android.l.catchup;
+package com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.data;
 
 import com.orm.SugarRecord;
 
-class NesDeadlines extends SugarRecord<NesDeadlines> {
-    String name;
-    String description;
+public class NesDeadlines extends SugarRecord<NesDeadlines> {
+    public String name;
+    public String description;
     boolean electronic;
     //String date;
-    NesCourse course;
+    public NesCourse course;
     int hId;
 
 

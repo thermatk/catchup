@@ -1,9 +1,9 @@
-package com.thermatk.android.l.catchup;
+package com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.data;
 
 import com.orm.SugarRecord;
 
-class NesUpdateTimes extends SugarRecord<NesUpdateTimes> {
-    String type;
+public class NesUpdateTimes extends SugarRecord<NesUpdateTimes> {
+    public String type;
     long tableId;
     long lastUpdated;
 

@@ -17,6 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.data.NesCourse;
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.DeadlinesFragment;
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.FilesFragment;
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.GradesFragment;
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.InfoFragment;
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.StudentsFragment;
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
+
 
 public class CourseSingle extends ActionBarActivity {
 
@@ -126,108 +134,4 @@ public class CourseSingle extends ActionBarActivity {
             return frags.length;
         }
     }
-
-
-    public static class DeadlinesFragment extends Fragment implements UpdatableFragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_course_single, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void updateFragment() {
-
-        }
-
-        @Override
-        public void updateContent() {
-
-        }
-    }
-    public static class GradesFragment extends Fragment implements UpdatableFragment  {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_course_single, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void updateFragment() {
-
-        }
-
-        @Override
-        public void updateContent() {
-
-        }
-    }
-    public static class FilesFragment extends Fragment implements UpdatableFragment  {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_course_single, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void updateFragment() {
-
-        }
-
-        @Override
-        public void updateContent() {
-
-        }
-    }
-
-    public static class InfoFragment extends Fragment implements UpdatableFragment  {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_course_single, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void updateFragment() {
-
-        }
-
-        @Override
-        public void updateContent() {
-
-        }
-    }
-    public static class StudentsFragment extends Fragment implements UpdatableFragment  {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_course_single, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void updateFragment() {
-
-        }
-
-        @Override
-        public void updateContent() {
-
-        }
-    }
-
 }

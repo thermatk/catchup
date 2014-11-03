@@ -1,9 +1,9 @@
-package com.thermatk.android.l.catchup;
+package com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.data;
 
 
 import com.orm.SugarRecord;
 
-class NesNearestEvents extends SugarRecord<NesNearestEvents> {
+public class NesNearestEvents extends SugarRecord<NesNearestEvents> {
     String stringhash;
 
     public NesNearestEvents(){

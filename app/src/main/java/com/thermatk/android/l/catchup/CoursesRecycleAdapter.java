@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.data.NesCourse;
+
 import java.util.List;
 
 public class CoursesRecycleAdapter extends RecyclerView.Adapter<CoursesRecycleAdapter.CoursesViewHolder> {

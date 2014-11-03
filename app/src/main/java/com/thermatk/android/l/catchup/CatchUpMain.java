@@ -26,10 +26,17 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.CourseFragment;
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.DefaultFragment;
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.LearnFragment;
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.ScheduleFragment;
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces.CallbackListener;
+import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
+
 import java.util.List;
 
 
-public class CatchUpMain extends ActionBarActivity implements CallbackListener{
+public class CatchUpMain extends ActionBarActivity implements CallbackListener {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -233,153 +240,6 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener{
 
         Log.i("CatchUp", cbMessage);
 
-    }
-    public static class DefaultFragment extends Fragment implements UpdatableFragment {
-        public void updateFragment(){
-            final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
-            tvInfo.setText("UPDATED DEFAULT");
-        }
-
-        @Override
-        public void updateContent() {
-
-        }
-
-        public DefaultFragment() {
-            // Empty constructor required for fragment subclasses
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_default, container, false);
-
-
-            final Button butTest2 = (Button)rootView.findViewById(R.id.button2);
-            butTest2.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-            if(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("nesusername", null) == null || PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("nespassword", null) == null) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-            }
-            return rootView;
-        }
-    }
-    public static class CourseFragment extends Fragment implements UpdatableFragment  {
-        RecyclerView mRecyclerView;
-        public void updateFragment(){
-            CoursesRecycleAdapter mAdapter = new CoursesRecycleAdapter(NesCourse.listAll(NesCourse.class), getActivity());
-            mRecyclerView.setAdapter(mAdapter);
-            Log.i("CatchUp", "UPDATED COURSE");
-        }
-
-        @Override
-        public void updateContent() {
-
-            MyNesClient myNes = new MyNesClient(getActivity());
-            myNes.getCurrentCourseList();
-        }
-
-        public CourseFragment() {
-            // Empty constructor required for fragment subclasses
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_courses, container, false);
-
-            mRecyclerView = (RecyclerView)rootView.findViewById(R.id.list);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-            CoursesRecycleAdapter mAdapter = new CoursesRecycleAdapter(NesCourse.listAll(NesCourse.class), getActivity());
-            mRecyclerView.setAdapter(mAdapter);
-
-
-            List<NesUpdateTimes> courseUpdatedL = NesUpdateTimes.find(NesUpdateTimes.class, "type = ?", "COURSELIST");
-            if(!courseUpdatedL.isEmpty()) {
-                if(courseUpdatedL.get(0).needsUpdate()) {
-                    ((CatchUpMain)getActivity()).viewStartLoading();
-                    updateContent();
-                } else {
-                    Log.i("CatchUp", Boolean.toString(courseUpdatedL.get(0).needsUpdate()));
-                }
-            } else {
-                Log.i("CatchUp", "NOT UPDATED IN THE PAST");
-                ((CatchUpMain)getActivity()).viewStartLoading();
-                updateContent();
-            }
-            return rootView;
-        }
-    }
-    public static class LearnFragment extends Fragment implements UpdatableFragment {
-        public void updateFragment(){
-            final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
-            tvInfo.setText("UPDATED Learn");
-        }
-
-        @Override
-        public void updateContent() {
-
-        }
-
-        public LearnFragment() {
-            // Empty constructor required for fragment subclasses
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_default, container, false);
-
-
-            final Button butTest2 = (Button)rootView.findViewById(R.id.button2);
-            butTest2.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-            return rootView;
-        }
-    }
-    public static class ScheduleFragment extends Fragment implements UpdatableFragment {
-        public void updateFragment(){
-            final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
-            tvInfo.setText("UPDATED Schedule");
-        }
-
-        @Override
-        public void updateContent() {
-
-        }
-
-        public ScheduleFragment() {
-            // Empty constructor required for fragment subclasses
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_default, container, false);
-
-
-            final Button butTest2 = (Button)rootView.findViewById(R.id.button2);
-            butTest2.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-            return rootView;
-        }
     }
 
 }
