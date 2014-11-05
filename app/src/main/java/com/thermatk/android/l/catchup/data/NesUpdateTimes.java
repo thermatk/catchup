@@ -1,4 +1,4 @@
-package com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.data;
+package com.thermatk.android.l.catchup.data;
 
 import com.orm.SugarRecord;
 

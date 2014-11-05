@@ -18,12 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.CourseFragment;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.DefaultFragment;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.LearnFragment;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.ScheduleFragment;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces.CallbackListener;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
+import com.thermatk.android.l.catchup.fragments.CourseFragment;
+import com.thermatk.android.l.catchup.fragments.DefaultFragment;
+import com.thermatk.android.l.catchup.fragments.LearnFragment;
+import com.thermatk.android.l.catchup.fragments.ScheduleFragment;
+import com.thermatk.android.l.catchup.interfaces.CallbackListener;
+import com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
 
 
 public class CatchUpMain extends ActionBarActivity implements CallbackListener {

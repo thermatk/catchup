@@ -1,4 +1,4 @@
-package com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments;
+package com.thermatk.android.l.catchup.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -9,12 +9,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.thermatk.android.l.catchup.R;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
+import com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
 
-public class LearnFragment extends Fragment implements UpdatableFragment {
+
+public class ScheduleFragment extends Fragment implements UpdatableFragment {
     public void updateFragment(){
         final TextView tvInfo = (TextView) getView().findViewById(R.id.textView1);
-        tvInfo.setText("UPDATED Learn");
+        tvInfo.setText("UPDATED Schedule");
     }
 
     @Override
@@ -22,7 +23,7 @@ public class LearnFragment extends Fragment implements UpdatableFragment {
 
     }
 
-    public LearnFragment() {
+    public ScheduleFragment() {
         // Empty constructor required for fragment subclasses
     }
 

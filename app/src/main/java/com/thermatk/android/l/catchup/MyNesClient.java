@@ -11,9 +11,9 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.orm.query.Condition;
 import com.orm.query.Select;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.data.NesCourse;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.data.NesUpdateTimes;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces.CallbackListener;
+import com.thermatk.android.l.catchup.data.NesCourse;
+import com.thermatk.android.l.catchup.data.NesUpdateTimes;
+import com.thermatk.android.l.catchup.interfaces.CallbackListener;
 
 import org.apache.http.Header;
 import org.jsoup.Jsoup;

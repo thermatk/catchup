@@ -1,4 +1,4 @@
-package com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces;
+package com.thermatk.android.l.catchup.interfaces;
 
 public interface UpdatableFragment {
 

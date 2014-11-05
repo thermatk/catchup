@@ -1,4 +1,4 @@
-package com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments;
+package com.thermatk.android.l.catchup.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import com.thermatk.android.l.catchup.CatchUpMain;
 import com.thermatk.android.l.catchup.CoursesRecycleAdapter;
 import com.thermatk.android.l.catchup.MyNesClient;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.data.NesCourse;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.data.NesUpdateTimes;
+import com.thermatk.android.l.catchup.data.NesCourse;
+import com.thermatk.android.l.catchup.data.NesUpdateTimes;
 import com.thermatk.android.l.catchup.R;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
+import com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
 
 import java.util.List;
 

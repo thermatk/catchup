@@ -1,4 +1,4 @@
-package com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments;
+package com.thermatk.android.l.catchup.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.thermatk.android.l.catchup.R;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
+import com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
 
 public class StudentsFragment extends Fragment implements UpdatableFragment {
 

@@ -11,19 +11,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.data.NesCourse;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.DeadlinesFragment;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.FilesFragment;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.GradesFragment;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.InfoFragment;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.StudentsFragment;
-import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
+import com.thermatk.android.l.catchup.data.NesCourse;
+import com.thermatk.android.l.catchup.fragments.DeadlinesFragment;
+import com.thermatk.android.l.catchup.fragments.FilesFragment;
+import com.thermatk.android.l.catchup.fragments.GradesFragment;
+import com.thermatk.android.l.catchup.fragments.InfoFragment;
+import com.thermatk.android.l.catchup.fragments.StudentsFragment;
 
 
 public class CourseSingle extends ActionBarActivity {
