@@ -50,9 +50,13 @@ public class CourseFragment extends Fragment implements UpdatableFragment {
 
         CoursesRecycleAdapter mAdapter = new CoursesRecycleAdapter(NesCourse.listAll(NesCourse.class), getActivity());
         mRecyclerView.setAdapter(mAdapter);
+        if (savedInstanceState != null) {
+            return rootView;
+        }
 
 
         List<NesUpdateTimes> courseUpdatedL = NesUpdateTimes.find(NesUpdateTimes.class, "type = ?", "COURSELIST");
+
         if(!courseUpdatedL.isEmpty()) {
             if(courseUpdatedL.get(0).needsUpdate()) {
                 ((CatchUpMain)getActivity()).viewStartLoading();
