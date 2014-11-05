@@ -20,9 +20,10 @@ import com.thermatk.android.l.catchup.fragments.FilesFragment;
 import com.thermatk.android.l.catchup.fragments.GradesFragment;
 import com.thermatk.android.l.catchup.fragments.InfoFragment;
 import com.thermatk.android.l.catchup.fragments.StudentsFragment;
+import com.thermatk.android.l.catchup.interfaces.CallbackListener;
 
 
-public class CourseSingle extends ActionBarActivity {
+public class CourseSingle extends ActionBarActivity implements CallbackListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -36,7 +37,7 @@ public class CourseSingle extends ActionBarActivity {
 
     ViewPager mViewPager;
 
-    NesCourse loadedCourse;
+    public NesCourse loadedCourse;
     Menu menu;
 
     @Override
@@ -93,6 +94,16 @@ public class CourseSingle extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void successCallback(String cbMessage) {
+
+    }
+
+    @Override
+    public void failCallback(String cbMessage) {
+
     }
 
     /**
