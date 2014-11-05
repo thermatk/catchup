@@ -20,8 +20,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         android:layout_gravity="end"
-        android:indeterminateTint="#FFFFFF"
-        android:indeterminateTintMode="src_in"
         android:visibility="invisible"/>
     </android.support.v7.widget.Toolbar>
 <android.support.v4.widget.DrawerLayout
