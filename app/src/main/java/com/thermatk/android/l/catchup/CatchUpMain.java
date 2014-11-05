@@ -4,27 +4,19 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.CourseFragment;
 import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.DefaultFragment;
@@ -32,8 +24,6 @@ import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.L
 import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.fragments.ScheduleFragment;
 import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces.CallbackListener;
 import com.thermatk.android.l.catchup.com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
-
-import java.util.List;
 
 
 public class CatchUpMain extends ActionBarActivity implements CallbackListener {
