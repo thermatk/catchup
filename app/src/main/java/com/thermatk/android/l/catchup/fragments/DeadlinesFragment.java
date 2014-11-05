@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.thermatk.android.l.catchup.CourseSingle;
 import com.thermatk.android.l.catchup.MyNesClient;
 import com.thermatk.android.l.catchup.R;
 import com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
@@ -17,7 +18,8 @@ public class DeadlinesFragment extends Fragment implements UpdatableFragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_course_single, container, false);
-
+        MyNesClient myNes = new MyNesClient(getActivity());
+        myNes.getCourseDeadlines(((CourseSingle) getActivity()).loadedCourse.myNesId);
 
         return rootView;
     }

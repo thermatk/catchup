@@ -181,15 +181,35 @@ public class MyNesClient {
                         }
                     });
                 } else {
-                    Elements harows = doc.getElementById("has_table").getElementsByTag("tbody").first().getElementsByTag("tr");
-                    if (harows.size() > 1) {
-                        for (int i=1;i<harows.size();i++) {
-                            Element harow= harows.get(i);
-                            Log.i("CatchUp", harow.html());
+                    Element hatab = doc.getElementById("has_table");
+                    if(hatab!=null) {
+                        Elements harows = hatab.getElementsByTag("tbody").first().getElementsByTag("tr");
+                        if (harows.size() > 1) {
+                            for (int i = 1; i < harows.size(); i++) {
+                                Element harow = harows.get(i).getElementsByTag("td").get(1);
+                                String haname = harow.getElementsByAttributeValueContaining("id", "haname").get(0).text();
+                                Elements parr = harow.getElementsByTag("p");
+                                String descr = null;
+                                Boolean isElectronic = null;
+                                if(parr.size() > 1) {
+                                    descr = parr.get(0).text();
+                                    if(parr.get(1).text().contains("только на бумаге")) {
+                                        isElectronic = false;
+                                    } else {
+                                        isElectronic = true;
+                                    }
+                                } else {
+                                    if(parr.get(0).text().contains("только на бумаге")) {
+                                        isElectronic = false;
+                                    } else {
+                                        isElectronic = true;
+                                    }
+                                }
+                                Log.i("CatchUp", Boolean.toString(isElectronic));
 
-                        }
+                            }
 
-                        //Elements homeassignments = hatable.get(1).getElementsByClass("dimmed");
+                            //Elements homeassignments = hatable.get(1).getElementsByClass("dimmed");
                         /*Elements courses = tablecourses.getElementsByTag("a");
                         for (Element course : courses) {
                             int mn_id = Integer.parseInt(course.parent().parent().getElementsByClass("dimmed").get(0).text());
@@ -201,9 +221,10 @@ public class MyNesClient {
                             }
                             }
                             */
-                        cListener.successCallback("oooh yeah");
-                    } else {
-                        Log.i("CatchUp", "MYNES Course General failed");
+                            cListener.successCallback("oooh yeah");
+                        } else {
+                            Log.i("CatchUp", "MYNES Course General failed");
+                        }
                     }
                 }
             }
