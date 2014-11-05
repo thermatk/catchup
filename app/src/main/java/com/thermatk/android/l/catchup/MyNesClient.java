@@ -193,17 +193,9 @@ public class MyNesClient {
                                 Boolean isElectronic = null;
                                 if(parr.size() > 1) {
                                     descr = parr.get(0).text();
-                                    if(parr.get(1).text().contains("только на бумаге")) {
-                                        isElectronic = false;
-                                    } else {
-                                        isElectronic = true;
-                                    }
+                                    isElectronic = !parr.get(1).text().contains("только на бумаге");
                                 } else {
-                                    if(parr.get(0).text().contains("только на бумаге")) {
-                                        isElectronic = false;
-                                    } else {
-                                        isElectronic = true;
-                                    }
+                                    isElectronic = !parr.get(0).text().contains("только на бумаге");
                                 }
                                 Log.i("CatchUp", Boolean.toString(isElectronic));
 
