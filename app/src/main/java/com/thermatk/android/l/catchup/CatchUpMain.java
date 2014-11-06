@@ -208,10 +208,12 @@ public class CatchUpMain extends ActionBarActivity implements CallbackListener {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
     public void viewStartLoading () {
         loadingBar.setVisibility(View.VISIBLE);
         menu.findItem(R.id.menu_refresh).setVisible(false);
     }
+    @Override
     public void viewStopLoading() {
         menu.findItem(R.id.menu_refresh).setVisible(true);
         loadingBar.setVisibility(View.INVISIBLE);

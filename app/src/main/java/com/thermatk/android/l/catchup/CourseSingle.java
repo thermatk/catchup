@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.thermatk.android.l.catchup.data.NesCourse;
 import com.thermatk.android.l.catchup.fragments.DeadlinesFragment;
@@ -21,6 +23,7 @@ import com.thermatk.android.l.catchup.fragments.GradesFragment;
 import com.thermatk.android.l.catchup.fragments.InfoFragment;
 import com.thermatk.android.l.catchup.fragments.StudentsFragment;
 import com.thermatk.android.l.catchup.interfaces.CallbackListener;
+import com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
 
 
 public class CourseSingle extends ActionBarActivity implements CallbackListener {
@@ -38,7 +41,8 @@ public class CourseSingle extends ActionBarActivity implements CallbackListener 
     ViewPager mViewPager;
 
     public NesCourse loadedCourse;
-    Menu menu;
+    private ProgressBar loadingBar;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +58,23 @@ public class CourseSingle extends ActionBarActivity implements CallbackListener 
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        loadingBar = (ProgressBar) findViewById(R.id.progressBar);
+        loadingBar.setVisibility(View.INVISIBLE);
+
+
+
         loadedCourse = NesCourse.findById(NesCourse.class, getIntent().getLongExtra("courseId",0L));
         if(loadedCourse != null) {
             setTitle(loadedCourse.name);
         } else {
             finish();
         }
+
+        if (savedInstanceState != null) {
+            return;
+        }
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
@@ -98,12 +113,29 @@ public class CourseSingle extends ActionBarActivity implements CallbackListener 
 
     @Override
     public void successCallback(String cbMessage) {
-
+        viewStopLoading();
+        ((UpdatableFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
+        Log.i("CatchUp", cbMessage);
     }
 
     @Override
     public void failCallback(String cbMessage) {
+        viewStopLoading();
 
+        Log.i("CatchUp", cbMessage);
+
+    }
+
+    @Override
+    public void viewStartLoading() {
+            loadingBar.setVisibility(View.VISIBLE);
+            menu.findItem(R.id.menu_refresh).setVisible(false);
+    }
+
+    @Override
+    public void viewStopLoading() {
+        menu.findItem(R.id.menu_refresh).setVisible(true);
+        loadingBar.setVisibility(View.INVISIBLE);
     }
 
     /**
