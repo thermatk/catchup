@@ -6,7 +6,7 @@ public class NesUpdateTimes extends SugarRecord<NesUpdateTimes> {
     public String type;
     long tableId;
     long lastUpdated;
-
+    String checkString;
 
     public NesUpdateTimes(){
     }
