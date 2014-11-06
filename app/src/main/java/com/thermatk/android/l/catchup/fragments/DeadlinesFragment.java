@@ -32,6 +32,6 @@ public class DeadlinesFragment extends Fragment implements UpdatableFragment {
     public void updateContent() {
         Log.i("CatchUp", "ssss XD");
         MyNesClient myNes = new MyNesClient(getActivity());
-        myNes.getCourseDeadlines(((CourseSingle) getActivity()).loadedCourse.myNesId);
+        myNes.getCourseDeadlines(((CourseSingle) getActivity()).loadedCourse);
     }
 }

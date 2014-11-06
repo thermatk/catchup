@@ -12,6 +12,7 @@ import com.loopj.android.http.RequestParams;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 import com.thermatk.android.l.catchup.data.NesCourse;
+import com.thermatk.android.l.catchup.data.NesDeadlines;
 import com.thermatk.android.l.catchup.data.NesUpdateTimes;
 import com.thermatk.android.l.catchup.interfaces.CallbackListener;
 
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class MyNesClient {
     private static final String BASE_URL = "https://my.nes.ru/";
@@ -170,7 +172,7 @@ public class MyNesClient {
         get("adam.pl?student&lang=1", null, requestHandler);
     }
 
-    public void getCourseDeadlines(final int myNesId) {
+    public void getCourseDeadlines(final NesCourse course) {
         AsyncHttpResponseHandler requestHandler = new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -181,7 +183,7 @@ public class MyNesClient {
                     triedLogin = true;
                     login(new Runnable() {
                         public void run() {
-                            getCourseDeadlines(myNesId);
+                            getCourseDeadlines(course);
                         }
                     });
                 } else {
@@ -193,8 +195,8 @@ public class MyNesClient {
                                 Element harow = harows.get(i).getElementsByTag("td").get(1);
                                 String haname = harow.getElementsByAttributeValueContaining("id", "haname").get(0).text();
                                 Elements parr = harow.getElementsByTag("p");
-                                String descr = null;
-                                Boolean isElectronic = null;
+                                String descr = "";
+                                Boolean isElectronic = false;
                                 if(parr.size() > 1) {
                                     descr = parr.get(0).text();
                                     isElectronic = !parr.get(1).text().contains("paper only");
@@ -202,7 +204,8 @@ public class MyNesClient {
                                     isElectronic = !parr.get(0).text().contains("paper only");
                                 }
                                 Element hadate = harows.get(i).getElementsByTag("td").get(2);
-                                SimpleDateFormat parser = new SimpleDateFormat("MMM dd, yyyy, HH:mm");
+                                SimpleDateFormat parser = new SimpleDateFormat("MMM dd, yyyy, HH:mm", Locale.ENGLISH);
+                                parser.setTimeZone(TimeZone.getTimeZone("Etc/GMT-3"));
                                 Date d = null;
                                 try {
                                     d = parser.parse(hadate.text());
@@ -210,7 +213,8 @@ public class MyNesClient {
                                     e.printStackTrace();
                                 }
                                 Long deadline = d.getTime() / 1000L;
-                                Log.i("CatchUp", Long.toString(deadline));
+                                NesDeadlines newDeadline = new NesDeadlines(haname, course,i, descr,isElectronic, deadline);
+                                newDeadline.save();
 
                             }
 
@@ -228,7 +232,8 @@ public class MyNesClient {
                             */
                             cListener.successCallback("oooh yeah");
                         } else {
-                            Log.i("CatchUp", "MYNES Course General failed");
+                            cListener.failCallback("MYNES Deadlines failed r");
+                            Log.i("CatchUp", "MYNES Deadlines failed");
                         }
                     }
                 }
@@ -238,9 +243,10 @@ public class MyNesClient {
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.i("CatchUp", "MYNES FAILED Course General REQUEST" + statusCode);
                 //Failed func
+                cListener.failCallback("MYNES Deadlines failed s");
             }
         };
-        get("adam.pl?student/courses/crs&cid="+Integer.toString(myNesId)+"&pane=homeworks&lang=0", null, requestHandler);
+        get("adam.pl?student/courses/crs&cid="+Integer.toString(course.myNesId)+"&pane=homeworks&lang=0", null, requestHandler);
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
