@@ -126,13 +126,11 @@ public class CourseSingle extends ActionBarActivity implements CallbackListener 
 
         @Override
         public CharSequence getPageTitle(int position) {
-            Log.v("TitleAdapter - getPageTitle=", titles[position]);
             return titles[position];
         }
 
         @Override
         public Fragment getItem(int position) {
-            Log.v("TitleAdapter - getItem=", String.valueOf(position));
             return frags[position];
         }
 
