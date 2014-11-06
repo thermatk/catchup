@@ -6,9 +6,9 @@ public class NesDeadlines extends SugarRecord<NesDeadlines> {
     public String name;
     public String description;
     boolean electronic;
-    //String date;
     public NesCourse course;
     int hId;
+    long deadline;
 
 
     public NesDeadlines(){

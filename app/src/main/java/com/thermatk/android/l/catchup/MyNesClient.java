@@ -197,19 +197,20 @@ public class MyNesClient {
                                 Boolean isElectronic = null;
                                 if(parr.size() > 1) {
                                     descr = parr.get(0).text();
-                                    isElectronic = !parr.get(1).text().contains("только на бумаге");
+                                    isElectronic = !parr.get(1).text().contains("paper only");
                                 } else {
-                                    isElectronic = !parr.get(0).text().contains("только на бумаге");
+                                    isElectronic = !parr.get(0).text().contains("paper only");
                                 }
                                 Element hadate = harows.get(i).getElementsByTag("td").get(2);
-                                SimpleDateFormat parser = new SimpleDateFormat("dd MMM yyyy, HH:mm");
+                                SimpleDateFormat parser = new SimpleDateFormat("MMM dd, yyyy, HH:mm");
                                 Date d = null;
                                 try {
                                     d = parser.parse(hadate.text());
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
-                                Log.i("CatchUp", Long.toString(d.getTime()));
+                                Long deadline = d.getTime() / 1000L;
+                                Log.i("CatchUp", Long.toString(deadline));
 
                             }
 
@@ -239,7 +240,7 @@ public class MyNesClient {
                 //Failed func
             }
         };
-        get("adam.pl?student/courses/crs&cid="+Integer.toString(myNesId)+"&pane=homeworks&lang=1", null, requestHandler);
+        get("adam.pl?student/courses/crs&cid="+Integer.toString(myNesId)+"&pane=homeworks&lang=0", null, requestHandler);
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
