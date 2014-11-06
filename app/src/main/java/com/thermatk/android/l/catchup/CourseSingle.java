@@ -101,9 +101,9 @@ public class CourseSingle extends ActionBarActivity implements CallbackListener 
             finish();
             return true;
         } else if (id == R.id.menu_refresh) {
-            /*viewStartLoading();
-            ((UpdatableFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateContent();
-            */
+            viewStartLoading();
+            ((UpdatableFragment) mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem())).updateContent();
+
             Log.i("CatchUp","refresh XD");
             return true;
         }
@@ -114,7 +114,7 @@ public class CourseSingle extends ActionBarActivity implements CallbackListener 
     @Override
     public void successCallback(String cbMessage) {
         viewStopLoading();
-        ((UpdatableFragment) getFragmentManager().findFragmentById(R.id.content_main_frame)).updateFragment();
+        ((UpdatableFragment) mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem())).updateFragment();
         Log.i("CatchUp", cbMessage);
     }
 

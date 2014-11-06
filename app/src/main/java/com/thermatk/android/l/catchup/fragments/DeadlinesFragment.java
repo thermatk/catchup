@@ -2,6 +2,7 @@ package com.thermatk.android.l.catchup.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,6 @@ public class DeadlinesFragment extends Fragment implements UpdatableFragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_course_single, container, false);
-        MyNesClient myNes = new MyNesClient(getActivity());
-        myNes.getCourseDeadlines(((CourseSingle) getActivity()).loadedCourse.myNesId);
 
         return rootView;
     }
@@ -31,6 +30,8 @@ public class DeadlinesFragment extends Fragment implements UpdatableFragment {
 
     @Override
     public void updateContent() {
-
+        Log.i("CatchUp", "ssss XD");
+        MyNesClient myNes = new MyNesClient(getActivity());
+        myNes.getCourseDeadlines(((CourseSingle) getActivity()).loadedCourse.myNesId);
     }
 }

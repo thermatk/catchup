@@ -22,7 +22,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MyNesClient {
     private static final String BASE_URL = "https://my.nes.ru/";
@@ -197,7 +201,15 @@ public class MyNesClient {
                                 } else {
                                     isElectronic = !parr.get(0).text().contains("только на бумаге");
                                 }
-                                Log.i("CatchUp", Boolean.toString(isElectronic));
+                                Element hadate = harows.get(i).getElementsByTag("td").get(2);
+                                SimpleDateFormat parser = new SimpleDateFormat("dd MMM yyyy, HH:mm");
+                                Date d = null;
+                                try {
+                                    d = parser.parse(hadate.text());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                Log.i("CatchUp", Long.toString(d.getTime()));
 
                             }
 
