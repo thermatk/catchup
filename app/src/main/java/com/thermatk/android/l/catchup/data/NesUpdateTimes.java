@@ -21,9 +21,9 @@ public class NesUpdateTimes extends SugarRecord<NesUpdateTimes> {
         return lastUpdated;
     }
 
-    public boolean needsUpdate() {
+    public boolean needsUpdate(int updInterval) {
         long currentTime = System.currentTimeMillis() / 1000L;
-        return (currentTime-lastUpdated)>1800;
+        return (currentTime-lastUpdated)>updInterval;
     }
 
 }

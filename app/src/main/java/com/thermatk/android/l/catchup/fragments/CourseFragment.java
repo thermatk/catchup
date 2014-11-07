@@ -58,11 +58,11 @@ public class CourseFragment extends Fragment implements UpdatableFragment {
         List<NesUpdateTimes> courseUpdatedL = NesUpdateTimes.find(NesUpdateTimes.class, "type = ?", "COURSELIST");
 
         if(!courseUpdatedL.isEmpty()) {
-            if(courseUpdatedL.get(0).needsUpdate()) {
+            if(courseUpdatedL.get(0).needsUpdate(1800)) {
                 ((CatchUpMain)getActivity()).viewStartLoading();
                 updateContent();
             } else {
-                Log.i("CatchUp", Boolean.toString(courseUpdatedL.get(0).needsUpdate()));
+                Log.i("CatchUp", Boolean.toString(courseUpdatedL.get(0).needsUpdate(1800)));
             }
         } else {
             Log.i("CatchUp", "NOT UPDATED IN THE PAST");
