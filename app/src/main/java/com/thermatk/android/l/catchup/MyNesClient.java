@@ -103,7 +103,7 @@ public class MyNesClient {
                     Elements table7 = doc.select("td.right_col table.table7");
                     if (table7.size() > 1) {
                         String found = table7.get(1).outerHtml();
-                        Log.i("CatchUp", "MYNES Events down: " + found);
+                        Log.i("CatchUp", "MYNES Events down");
 
 
                         if(Select.from(NesNearestEvents.class).where(Condition.prop("current").eq(found)).count()==0) {

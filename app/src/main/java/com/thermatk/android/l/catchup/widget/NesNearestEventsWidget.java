@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Implementation of App Widget functionality.
  */
-public class NesNearestEvents extends AppWidgetProvider{
+public class NesNearestEventsWidget extends AppWidgetProvider{
     public static String EXTRA_WORD=
             "com.thermatk.android.l.catchup.WORD";
 
@@ -59,6 +59,7 @@ public class NesNearestEvents extends AppWidgetProvider{
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
+        Log.i("CatchUp", "Called widget update");
 
         Intent svcIntent=new Intent(context, WidgetService.class);
 

@@ -40,7 +40,7 @@
                 android:value="com.thermatk.android.l.catchup.CatchUpMain" />
         </activity>
 
-        <receiver android:name=".widget.NesNearestEvents" >
+        <receiver android:name=".widget.NesNearestEventsWidget" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

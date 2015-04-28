@@ -1,4 +1,4 @@
-package com.thermatk.android.l.catchup;
+package com.thermatk.android.l.catchup.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -9,7 +9,9 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.orm.query.Select;
-import com.thermatk.android.l.catchup.widget.NesNearestEvents;
+import com.thermatk.android.l.catchup.R;
+import com.thermatk.android.l.catchup.data.NesNearestEvents;
+import com.thermatk.android.l.catchup.widget.NesNearestEventsWidget;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,16 +21,6 @@ import org.jsoup.select.Elements;
 import java.util.List;
 
 public class NesEventsViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private static final String[] items={"lorem", "ipsum", "dolor",
-            "sit", "amet", "consectetuer",
-            "adipiscing", "elit", "morbi",
-            "vel", "ligula", "vitae",
-            "arcu", "aliquet", "mollis",
-            "etiam", "vel", "erat",
-            "placerat", "ante",
-            "porttitor", "sodales",
-            "pellentesque", "augue",
-            "purus"};
     private Context ctxt=null;
     private int appWidgetId;
     private String[] eventrows;
@@ -41,9 +33,10 @@ public class NesEventsViewsFactory implements RemoteViewsService.RemoteViewsFact
 
     @Override
     public void onCreate() {
-        List<com.thermatk.android.l.catchup.data.NesNearestEvents> nesNearestEventsL = Select.from(com.thermatk.android.l.catchup.data.NesNearestEvents.class).list();
+        Log.i("CatchUp", "Called widget update service start");
+        List<NesNearestEvents> nesNearestEventsL = Select.from(NesNearestEvents.class).list();
         if(!nesNearestEventsL.isEmpty()) {
-            com.thermatk.android.l.catchup.data.NesNearestEvents nesNearestEvents = nesNearestEventsL.get(0);
+            NesNearestEvents nesNearestEvents = nesNearestEventsL.get(0);
             String events = nesNearestEvents.current.replaceAll("\n", "").replaceAll("&nbsp;","");
             Document doc = Jsoup.parseBodyFragment(events);
             Elements rows = doc.getElementsByTag("tr");
@@ -72,14 +65,14 @@ public class NesEventsViewsFactory implements RemoteViewsService.RemoteViewsFact
 
     @Override
     public RemoteViews getViewAt(int position) {
-        RemoteViews row=new RemoteViews(ctxt.getPackageName(),R.layout.row);
+        RemoteViews row=new RemoteViews(ctxt.getPackageName(), R.layout.row);
 
         row.setTextViewText(android.R.id.text1, eventrows[position]);
 
         Intent i=new Intent();
         Bundle extras=new Bundle();
 
-        extras.putString(NesNearestEvents.EXTRA_WORD, eventrows[position]);
+        extras.putString(NesNearestEventsWidget.EXTRA_WORD, eventrows[position]);
         i.putExtras(extras);
         row.setOnClickFillInIntent(android.R.id.text1, i);
 

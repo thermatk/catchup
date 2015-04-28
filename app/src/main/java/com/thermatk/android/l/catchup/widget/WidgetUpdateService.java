@@ -36,7 +36,7 @@ public class WidgetUpdateService extends Service implements CallbackListener {
 
         RemoteViews remoteViews =new RemoteViews(getApplicationContext().getPackageName(), R.layout.widget);
         AppWidgetManager manager = AppWidgetManager.getInstance(getApplicationContext());
-        ComponentName thisWidget = new ComponentName(getApplicationContext(),  NesNearestEvents.class);
+        ComponentName thisWidget = new ComponentName(getApplicationContext(),  NesNearestEventsWidget.class);
         int[] allWidgetIds = manager.getAppWidgetIds(thisWidget);
         for (int widgetId : allWidgetIds) {
             Log.i("CatchUp", "SuccessUpdatedEventsWidget" + widgetId);
@@ -51,7 +51,6 @@ public class WidgetUpdateService extends Service implements CallbackListener {
     public void failCallback(String cbMessage) {
         Log.i("CatchUp", "FailUpdatedEventsWidget");
         stopSelf();
-
     }
 
     @Override
