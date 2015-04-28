@@ -13,6 +13,7 @@ import com.orm.query.Condition;
 import com.orm.query.Select;
 import com.thermatk.android.l.catchup.data.NesCourse;
 import com.thermatk.android.l.catchup.data.NesDeadlines;
+import com.thermatk.android.l.catchup.data.NesNearestEvents;
 import com.thermatk.android.l.catchup.data.NesUpdateTimes;
 import com.thermatk.android.l.catchup.interfaces.CallbackListener;
 
@@ -101,7 +102,30 @@ public class MyNesClient {
 
                     Elements table7 = doc.select("td.right_col table.table7");
                     if (table7.size() > 1) {
-                        String found = table7.get(1).html();
+                        String found = table7.get(1).outerHtml();
+                        Log.i("CatchUp", "MYNES Events down: " + found);
+
+
+                        if(Select.from(NesNearestEvents.class).where(Condition.prop("current").eq(found)).count()==0) {
+                            List<NesNearestEvents> nesNearestEventsL = Select.from(NesNearestEvents.class).list();
+                            if(!nesNearestEventsL.isEmpty()) {
+                                NesNearestEvents nesNearestEvents = nesNearestEventsL.get(0);
+                                nesNearestEvents.update(found);
+                            } else {
+                                NesNearestEvents nesNearestEvents = new NesNearestEvents(found);
+                                nesNearestEvents.save();
+                            }
+                        }
+
+                        List<NesUpdateTimes> nearesteventsUpdatedL = NesUpdateTimes.find(NesUpdateTimes.class, "type = ?", "NEARESTEVENTS");
+                        if(!nearesteventsUpdatedL.isEmpty()) {
+                            nearesteventsUpdatedL.get(0).setUpdated();
+                            nearesteventsUpdatedL.get(0).save();
+                        } else {
+                            NesUpdateTimes nearesteventsUpdated = new NesUpdateTimes("NEARESTEVENTS", 0);
+                            nearesteventsUpdated.setUpdated();
+                            nearesteventsUpdated.save();
+                        }
                         cListener.successCallback(found);
                     } else {
                         Log.i("CatchUp", "MYNES html courses failed");
