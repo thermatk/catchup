@@ -40,8 +40,8 @@ public class MyNesClient {
 
     private AsyncHttpClient client = new AsyncHttpClient();
 
-    public MyNesClient(Context appContext) {
-        CallbackListener listener = (CallbackListener) appContext;
+    public MyNesClient(CallbackListener cblist, Context appContext) {
+        CallbackListener listener = cblist;
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(appContext);
         username = sharedPrefs.getString("nesusername", "NULL");
         password = sharedPrefs.getString("nespassword", "NULL");

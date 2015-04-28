@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.thermatk.android.l.catchup.CourseSingle;
 import com.thermatk.android.l.catchup.MyNesClient;
 import com.thermatk.android.l.catchup.R;
+import com.thermatk.android.l.catchup.interfaces.CallbackListener;
 import com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
 
 public class DeadlinesFragment extends Fragment implements UpdatableFragment {
@@ -31,7 +32,7 @@ public class DeadlinesFragment extends Fragment implements UpdatableFragment {
     @Override
     public void updateContent() {
         Log.i("CatchUp", "ssss XD");
-        MyNesClient myNes = new MyNesClient(getActivity());
+        MyNesClient myNes = new MyNesClient((CallbackListener)getActivity(), getActivity());
         myNes.getCourseDeadlines(((CourseSingle) getActivity()).loadedCourse);
     }
 }
