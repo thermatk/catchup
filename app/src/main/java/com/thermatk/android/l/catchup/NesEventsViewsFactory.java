@@ -9,9 +9,6 @@ import android.widget.RemoteViewsService;
 
 import com.thermatk.android.l.catchup.widget.NesNearestEvents;
 
-/**
- * Created by thermatk on 27.04.15.
- */
 public class NesEventsViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private static final String[] items={"lorem", "ipsum", "dolor",
             "sit", "amet", "consectetuer",

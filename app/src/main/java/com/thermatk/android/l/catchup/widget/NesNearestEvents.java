@@ -1,23 +1,15 @@
 package com.thermatk.android.l.catchup.widget;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.widget.RemoteViews;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
 import com.thermatk.android.l.catchup.R;
 import com.thermatk.android.l.catchup.data.NesUpdateTimes;
-import com.thermatk.android.l.catchup.interfaces.CallbackListener;
 
 import java.util.List;
 
