@@ -38,11 +38,18 @@ public class WidgetUpdateService extends Service implements CallbackListener {
         AppWidgetManager manager = AppWidgetManager.getInstance(getApplicationContext());
         ComponentName thisWidget = new ComponentName(getApplicationContext(),  NesNearestEventsWidget.class);
         int[] allWidgetIds = manager.getAppWidgetIds(thisWidget);
+
+        Intent intent = new Intent(this, NesNearestEventsWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
+        sendBroadcast(intent);
+
         for (int widgetId : allWidgetIds) {
             Log.i("CatchUp", "SuccessUpdatedEventsWidget" + widgetId);
             manager.updateAppWidget(widgetId, remoteViews);
+
+            manager.notifyAppWidgetViewDataChanged(widgetId, R.id.words);
         }
-        Log.i("CatchUp", "SuccessUpdatedEventsWidget");
         stopSelf();
 
     }
