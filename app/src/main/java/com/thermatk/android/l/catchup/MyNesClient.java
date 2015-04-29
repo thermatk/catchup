@@ -102,6 +102,9 @@ public class MyNesClient {
 
                     Elements table7 = doc.select("td.right_col table.table7");
                     if (table7.size() > 1) {
+                        if(!table7.select("div[style$=red]").isEmpty()) {
+                            table7.select("div[style$=red]").remove();
+                        }
                         String found = table7.get(1).outerHtml();
                         Log.i("CatchUp", "MYNES Events down");
 
