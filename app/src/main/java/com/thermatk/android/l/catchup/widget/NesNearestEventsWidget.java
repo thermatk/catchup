@@ -39,8 +39,8 @@ public class NesNearestEventsWidget extends AppWidgetProvider{
         }
 
         final int N = appWidgetIds.length;
-        for (int i = 0; i < N; i++) {
-            updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
+        for (int appWidgetId : appWidgetIds) {
+            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
 
         super.onUpdate(context, appWidgetManager, appWidgetIds);

@@ -53,11 +53,11 @@
         <service
             android:name=".widget.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-        <service
+        <nlimiservice
             android:name=".widget.WidgetUpdateService"
             android:enabled="true"
             android:exported="true" >
-        </service>
+        </nlimiservice>
     </application>
 
 </manifest>

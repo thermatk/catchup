@@ -2,11 +2,7 @@ package com.thermatk.android.l.catchup;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,8 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.mikepenz.materialdrawer.Drawer;
@@ -74,7 +68,7 @@ public class CatchUpMain extends AppCompatActivity implements CallbackListener {
         mNavMenuTitles = getResources().getStringArray(R.array.nav_menu_array);
 
         //////
-        ArrayList<IDrawerItem> drItems = new ArrayList<IDrawerItem>();
+        ArrayList<IDrawerItem> drItems = new ArrayList<>();
 
         for(String item : mNavMenuTitles) {
             drItems.add(new PrimaryDrawerItem().withName(item));
