@@ -71,19 +71,17 @@ public class CourseSingle extends ActionBarActivity implements CallbackListener 
             finish();
         }
 
-        if (savedInstanceState != null) {
-            return;
-        }
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         PagerTabStrip pagerTabStrip = (PagerTabStrip) findViewById(R.id.pagerTabStrip);
-        // Set up the ViewPager with the sections adapter.
+
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(0);
+        if (savedInstanceState != null) {
+            return;
+        }
     }
 
     @Override
