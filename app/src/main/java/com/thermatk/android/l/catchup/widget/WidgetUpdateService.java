@@ -13,10 +13,12 @@ import com.thermatk.android.l.catchup.R;
 import com.thermatk.android.l.catchup.interfaces.CallbackListener;
 
 public class WidgetUpdateService extends Service implements CallbackListener {
+    Intent myIntent;
     public WidgetUpdateService() {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
+        myIntent = intent;
         getInfo();
         return super.onStartCommand(intent, flags, startId);
     }
@@ -50,13 +52,19 @@ public class WidgetUpdateService extends Service implements CallbackListener {
 
             manager.notifyAppWidgetViewDataChanged(widgetId, R.id.words);
         }
-        stopSelf();
+        stopIt();
 
     }
 
     @Override
     public void failCallback(String cbMessage) {
         Log.i("CatchUp", "FailUpdatedEventsWidget");
+        stopIt();
+    }
+
+    public void stopIt() {
+        stopForeground(true);
+        stopService(myIntent);
         stopSelf();
     }
 
