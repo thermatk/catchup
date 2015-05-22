@@ -9,6 +9,7 @@ import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -26,7 +27,7 @@ import com.thermatk.android.l.catchup.interfaces.CallbackListener;
 import com.thermatk.android.l.catchup.interfaces.UpdatableFragment;
 
 
-public class CourseSingle extends ActionBarActivity implements CallbackListener {
+public class CourseSingle extends AppCompatActivity implements CallbackListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
