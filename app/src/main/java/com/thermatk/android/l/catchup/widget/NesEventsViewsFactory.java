@@ -34,6 +34,10 @@ public class NesEventsViewsFactory implements RemoteViewsService.RemoteViewsFact
     @Override
     public void onCreate() {
         Log.i("CatchUp", "Called widget update service start");
+        dataSet();
+    }
+
+    public void dataSet() {
         List<NesNearestEvents> nesNearestEventsL = Select.from(NesNearestEvents.class).list();
         if(!nesNearestEventsL.isEmpty()) {
             NesNearestEvents nesNearestEvents = nesNearestEventsL.get(0);
@@ -101,6 +105,6 @@ public class NesEventsViewsFactory implements RemoteViewsService.RemoteViewsFact
 
     @Override
     public void onDataSetChanged() {
-        // no-op
+        dataSet();
     }
 }

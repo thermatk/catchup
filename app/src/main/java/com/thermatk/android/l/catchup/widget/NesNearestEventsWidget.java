@@ -59,7 +59,7 @@ public class NesNearestEventsWidget extends AppWidgetProvider{
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-        Log.i("CatchUp", "Called widget update");
+        Log.i("CatchUp", "Called widget update " + appWidgetId);
 
         Intent svcIntent=new Intent(context, WidgetService.class);
 
